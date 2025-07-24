@@ -1,10 +1,10 @@
 
 const defaultFeeds = [
   { name: "Ranger Bill", url: "https://fourble.co.uk/rangerbillsi-250723-7.rss" },
-  { name: "Lamplighter Theatre", url: "https://lamplightertheatre.libsyn.com/rss" },
-  { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.reframemedia.com/liz-and-friends-podcast.xml" },
-  { name: "VeggieTales", url: "https://www.vegetales.com/rss" },
-  { name: "Discovery Mountain", url: "https://discoverymountain.com/podcast/rss" }
+  { name: "Lamplighter Theatre", url: "https://lamplighterkids.com/podcast.xml" },
+  { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.net/feed/podcast" },
+  { name: "VeggieTales", url: "https://rss.art19.com/veggietales-very-veggie-silly-stories" },
+  { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
 ];
 
 function loadFeedList() {
