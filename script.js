@@ -70,18 +70,17 @@ const xml = parser.parseFromString(contents, 'text/xml');
       const div = document.createElement('div');
       div.className = 'episode';
       div.innerHTML = `
-      const audio = div.querySelector('audio');
+  <strong>${item.title}</strong><br>
+  <small>${item.pubDate.toDateString()}</small><br>
+  <audio controls src="${item.audio}"></audio>
+`;
+episodesDiv.appendChild(div);
+
+// Now attach the play event listener
+const audio = div.querySelector('audio');
 audio.addEventListener('play', () => {
   currentAudio = audio;
 });
-        <strong>${item.title}</strong><br>
-        <small>${item.pubDate.toDateString()}</small><br>
-        <audio controls src="${item.audio}"></audio>
-      `;
-      episodesDiv.appendChild(div);
-    }
-  });
-}
 
 loadFeedList();
 
