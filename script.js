@@ -1,4 +1,3 @@
-
 const defaultFeeds = [
   { name: "Ranger Bill", url: "https://fourble.co.uk/rangerbillsi-250723-7.rss" },
   { name: "Lamplighter Theatre", url: "https://theatre1594.rssing.com/chan-31359514/latest.php" },
@@ -37,21 +36,8 @@ async function loadEpisodes(order = 'newest') {
   const proxy = 'https://api.allorigins.win/get?url=';
   const response = await fetch(proxy + encodeURIComponent(feedUrl));
   const data = await response.json();
-  console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
-let contents = data.contents;
-
-// Only decode if it's base64-encoded
-if (contents.startsWith("data:application/rss+xml;base64,")) {
-  try {
-    contents = atob(contents.split(',')[1]);
-  } catch (e) {
-    console.error("Base64 decoding failed:", e);
-    return;
-  }
-}
-
-const xml = parser.parseFromString(contents, 'text/xml');
+  const xml = parser.parseFromString(data.contents, 'text/xml');
 
   let items = Array.from(xml.querySelectorAll('item')).map(item => ({
     title: item.querySelector('title')?.textContent || 'Untitled',
@@ -70,32 +56,29 @@ const xml = parser.parseFromString(contents, 'text/xml');
       const div = document.createElement('div');
       div.className = 'episode';
       div.innerHTML = `
-  <strong>${item.title}</strong><br>
-  <small>${item.pubDate.toDateString()}</small><br>
-  <audio controls src="${item.audio}"></audio>
-`;
-episodesDiv.appendChild(div);
-
-// Now attach the play event listener
-const audio = div.querySelector('audio');
-audio.addEventListener('play', () => {
-  currentAudio = audio;
-});
-
-loadFeedList();
+        <strong>${item.title}</strong><br>
+        <small>${item.pubDate.toDateString()}</small><br>
+        <audio controls src="${item.audio}"></audio>
+      `;
+      const audio = div.querySelector('audio');
+      audio.addEventListener('play', () => {
+        currentAudio = audio;
+      });
+      episodesDiv.appendChild(div);
+    }
+  });
+}
 
 let currentAudio = null;
 
 window.addEventListener('keydown', (e) => {
   if (!currentAudio) return;
-
   if (e.key === 'ArrowUp') {
     currentAudio.volume = Math.min(1, currentAudio.volume + 0.1);
-    console.log("Volume Up:", currentAudio.volume.toFixed(2));
   } else if (e.key === 'ArrowDown') {
     currentAudio.volume = Math.max(0, currentAudio.volume - 0.1);
-    console.log("Volume Down:", currentAudio.volume.toFixed(2));
   }
 });
 
+loadFeedList();
 loadEpisodes();
