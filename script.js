@@ -79,10 +79,10 @@ try {
       const div = document.createElement('div');
       div.className = 'episode';
       div.innerHTML = `
-        <strong>${item.title}</strong><br>
-        <small>${item.pubDate.toDateString()}</small><br>
-        <audio controls src="${item.audio}"></audio>
-      `;
+  <strong>${item.title}</strong><br>
+  <small>${item.pubDate.toDateString()}</small><br>
+  <button onclick="window.open('${item.audio}', '_blank')">▶️ Open in Player</button>
+`;
       const audio = div.querySelector('audio');
       audio.addEventListener('play', () => {
         currentAudio = audio;
