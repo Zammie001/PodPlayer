@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Podcasts</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fffaf0;
+      margin: 0;
+      padding: 1rem;
+      color: #222;
+    }
+    select, button, input {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .episode {
+      margin: 1rem 0;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    audio {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎙️ Cloud Podcasts</h2>
+  <label for="feedSelect">Choose a show:</label><br>
+  <select id="feedSelect"></select><br>
+
+  <input type="text" id="customFeed" placeholder="Paste RSS URL here" style="width:100%" />
+  <button onclick="addCustomFeed()">Add New Feed</button><br>
+
+  <button onclick="loadEpisodes('newest')">Sort: Newest First</button>
+  <button onclick="loadEpisodes('oldest')">Sort: Oldest First</button>
+  <div id="episodes"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

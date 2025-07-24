@@ -1,0 +1,16 @@
+
+{
+  "name": "Cloud Podcasts",
+  "short_name": "Podcasts",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fffaf0",
+  "theme_color": "#fffaf0",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
