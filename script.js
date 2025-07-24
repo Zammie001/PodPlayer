@@ -39,9 +39,20 @@ async function loadEpisodes(order = 'newest') {
   console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
 let xml;
+
 try {
-  const base64 = data.contents.split(',')[1];
-  const decoded = atob(base64);
+  let decoded;
+  const contents = data.contents;
+
+  if (contents.startsWith('data:')) {
+    // Base64 encoded
+    const base64 = contents.split(',')[1];
+    decoded = atob(base64);
+  } else {
+    // Plain text XML
+    decoded = contents;
+  }
+
   xml = parser.parseFromString(decoded, 'text/xml');
 } catch (e) {
   console.error("Failed to decode feed:", e);
