@@ -41,15 +41,18 @@ async function loadEpisodes(order = 'newest') {
 let xml;
 
 try {
-  let decoded;
   const contents = data.contents;
+  let decoded;
 
   if (contents.startsWith('data:')) {
-    // Base64 encoded
+    // data URI: try to decode Base64
     const base64 = contents.split(',')[1];
     decoded = atob(base64);
+  } else if (/^[A-Za-z0-9+/=]+\s*$/.test(contents.slice(0, 100))) {
+    // plain Base64 string (not a data URI), try decoding
+    decoded = atob(contents);
   } else {
-    // Plain text XML
+    // assume plain XML
     decoded = contents;
   }
 
