@@ -36,9 +36,18 @@ async function loadEpisodes(order = 'newest') {
   const proxy = 'https://api.allorigins.win/get?url=';
   const response = await fetch(proxy + encodeURIComponent(feedUrl));
   const data = await response.json();
+  console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
-  const xml = parser.parseFromString(data.contents, 'text/xml');
-
+let xml;
+try {
+  const base64 = data.contents.split(',')[1];
+  const decoded = atob(base64);
+  xml = parser.parseFromString(decoded, 'text/xml');
+} catch (e) {
+  console.error("Failed to decode feed:", e);
+  return alert("This feed could not be loaded.");
+}
+  
   let items = Array.from(xml.querySelectorAll('item')).map(item => ({
     title: item.querySelector('title')?.textContent || 'Untitled',
     audio: item.querySelector('enclosure')?.getAttribute('url'),
