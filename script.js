@@ -1,6 +1,6 @@
 const defaultFeeds = [
   { name: "Ranger Bill", url: "https://fourble.co.uk/rangerbillsi-250723-7.rss" },
-  { name: "Lamplighter Theatre", url: "https://theatre1594.rssing.com/chan-31359514/latest.php" },
+  { name: "Lamplighter Theatre", url: "https://www.oneplace.com/ministries/lamplighter-theatre/rss.html" },
   { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.net/feed/podcast" },
   { name: "VeggieTales Silly Stories", url: "https://rss.art19.com/veggietales-very-veggie-silly-stories" },
   { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
