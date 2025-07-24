@@ -78,17 +78,17 @@ try {
     if (item.audio) {
       const div = document.createElement('div');
       div.className = 'episode';
-      div.innerHTML = `
+div.innerHTML = `
   <strong>${item.title}</strong><br>
   <small>${item.pubDate.toDateString()}</small><br>
-  <button onclick="window.open('${item.audio}', '_blank')">▶️ Open in Player</button>
+  <audio controls src="${item.audio}"></audio>
 `;
-      const audio = div.querySelector('audio');
-      audio.addEventListener('play', () => {
-        currentAudio = audio;
-      });
-      episodesDiv.appendChild(div);
-    }
+episodesDiv.appendChild(div); // ✅ append first
+
+const audio = div.querySelector('audio'); // ✅ now it exists
+if (audio) {
+  audio.addEventListener('play', () => {
+    currentAudio = audio;
   });
 }
 
