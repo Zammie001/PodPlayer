@@ -37,6 +37,7 @@ async function loadEpisodes(order = 'newest') {
   const proxy = 'https://api.allorigins.win/get?url=';
   const response = await fetch(proxy + encodeURIComponent(feedUrl));
   const data = await response.json();
+  console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
   const xml = parser.parseFromString(data.contents, 'text/xml');
 
