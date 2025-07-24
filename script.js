@@ -1,6 +1,6 @@
 
 const defaultFeeds = [
-  { name: "Ranger Bill", url: "https://rangerbill.podbean.com/feed.xml" },
+  { name: "Ranger Bill", url: "https://fourble.co.uk/rangerbillsi-250723-7.rss" },
   { name: "Lamplighter Theatre", url: "https://lamplightertheatre.libsyn.com/rss" },
   { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.reframemedia.com/liz-and-friends-podcast.xml" },
   { name: "VeggieTales", url: "https://www.vegetales.com/rss" },
