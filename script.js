@@ -39,8 +39,19 @@ async function loadEpisodes(order = 'newest') {
   const data = await response.json();
   console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
-  const decoded = atob(data.contents.split(',')[1]); // base64 decode
-const xml = parser.parseFromString(decoded, 'text/xml');
+let contents = data.contents;
+
+// Only decode if it's base64-encoded
+if (contents.startsWith("data:application/rss+xml;base64,")) {
+  try {
+    contents = atob(contents.split(',')[1]);
+  } catch (e) {
+    console.error("Base64 decoding failed:", e);
+    return;
+  }
+}
+
+const xml = parser.parseFromString(contents, 'text/xml');
 
   let items = Array.from(xml.querySelectorAll('item')).map(item => ({
     title: item.querySelector('title')?.textContent || 'Untitled',
