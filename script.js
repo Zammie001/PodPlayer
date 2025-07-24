@@ -39,7 +39,8 @@ async function loadEpisodes(order = 'newest') {
   const data = await response.json();
   console.log("RAW Feed Content:", data.contents);
   const parser = new DOMParser();
-  const xml = parser.parseFromString(data.contents, 'text/xml');
+  const decoded = atob(data.contents.split(',')[1]); // base64 decode
+const xml = parser.parseFromString(decoded, 'text/xml');
 
   let items = Array.from(xml.querySelectorAll('item')).map(item => ({
     title: item.querySelector('title')?.textContent || 'Untitled',
