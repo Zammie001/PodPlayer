@@ -57,6 +57,15 @@
   <select id="feedSelect"></select><br>
   <input type="text" id="customFeed" placeholder="Add custom feed URL" />
   <button onclick="addCustomFeed()">Add Feed</button>
+  <label for="sortOrder">Sort episodes:</label>
+<select id="sortOrder">
+  <option value="newest" selected>Newest First</option>
+  <option value="oldest">Oldest First</option>
+</select>
+  <label>
+  <input type="checkbox" id="darkToggle" />
+  Dark Mode
+</label>
   <div id="episodes"></div>
   <script src="script.js"></script>
 </body>
