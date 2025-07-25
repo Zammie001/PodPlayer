@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PodPlayer Downloader</title>
+  <style>
+    body { font-family: sans-serif; padding: 1em; background: #f4f4f4; }
+    select, input, button { margin: 0.5em 0; padding: 0.4em; }
+    .episode { background: white; margin: 1em 0; padding: 1em; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h2>PodPlayer Downloader</h2>
+  <select id="feedSelect"></select><br>
+  <input type="text" id="customFeed" placeholder="Add custom feed URL" />
+  <button onclick="addCustomFeed()">Add Feed</button>
+  <div id="episodes"></div>
+  <script src="script.js"></script>
+</body>
+</html>
