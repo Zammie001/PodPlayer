@@ -83,4 +83,14 @@ div.innerHTML = `
 
 loadFeedList();
 loadEpisodes();
-document.getElementById('feedSelect').addEventListener('change', () => loadEpisodes());
+const refreshEpisodes = () => {
+  const order = document.getElementById('sortOrder').value;
+  loadEpisodes(order);
+};
+
+document.getElementById('feedSelect').addEventListener('change', refreshEpisodes);
+document.getElementById('sortOrder').addEventListener('change', refreshEpisodes);
+
+document.getElementById('darkToggle').addEventListener('change', (e) => {
+  document.body.classList.toggle('dark', e.target.checked);
+});
