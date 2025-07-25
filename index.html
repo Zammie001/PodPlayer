@@ -4,9 +4,58 @@
   <meta charset="UTF-8">
   <title>PodSaver</title>
   <style>
-    body { font-family: sans-serif; padding: 1em; background: #f4f4f4; }
-    select, input, button { margin: 0.5em 0; padding: 0.4em; }
-    .episode { background: white; margin: 1em 0; padding: 1em; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    body {
+      font-family: sans-serif;
+      font-size: 18px;
+      padding: 1em;
+      background: #f4f4f4;
+    }
+
+    h1, h2 {
+      font-size: 28px;
+    }
+
+    label, select, button, input {
+      font-size: 20px;
+      padding: 0.6em;
+      margin: 0.5em 0;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    input[type="text"] {
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .episode {
+      background: white;
+      margin: 1em 0;
+      padding: 1em;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    audio {
+      transform: scale(1.5);
+      margin-top: 0.5em;
+    }
+
+    a, button {
+      display: inline-block;
+      font-size: 20px;
+      margin-top: 0.5em;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
