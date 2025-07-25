@@ -55,6 +55,8 @@ async function loadEpisodes(order = 'newest') {
     pubDate: new Date(item.querySelector('pubDate')?.textContent || 0)
   }));
 
+  items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
+  
   const episodesDiv = document.getElementById('episodes');
   episodesDiv.innerHTML = '';
 
@@ -62,11 +64,13 @@ async function loadEpisodes(order = 'newest') {
     if (!item.audio) return;
     const div = document.createElement('div');
     div.className = 'episode';
-    div.innerHTML = `
-      <strong>${item.title}</strong><br>
-      <small>${item.pubDate.toDateString()}</small><br>
-      <audio controls src="${item.audio}"></audio>
-    `;
+    const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase().slice(0, 50);
+div.innerHTML = `
+  <strong>${item.title}</strong><br>
+  <small>${item.pubDate.toDateString()}</small><br>
+  <audio controls src="${item.audio}"></audio><br>
+  <a href="${item.audio}" download="${safeTitle}.mp3">Download MP3</a>
+`;
     episodesDiv.appendChild(div);
 
     const audio = div.querySelector('audio');
