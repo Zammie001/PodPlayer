@@ -78,29 +78,6 @@ async function loadEpisodes(order = 'newest') {
   });
 }
 
-    items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
-
-    const episodesDiv = document.getElementById('episodes');
-    episodesDiv.innerHTML = '';
-
-    items.forEach(item => {
-      if (!item.audio) return;
-      const div = document.createElement('div');
-      div.className = 'episode';
-      const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase().slice(0, 50);
-      div.innerHTML = `
-        <strong>${item.title}</strong><br>
-        <small>${item.pubDate.toDateString()}</small><br>
-        <a href="${item.audio}" download="${safeTitle}.mp3">Download MP3</a>
-      `;
-      episodesDiv.appendChild(div);
-    });
-  } catch (e) {
-    console.error("Failed to load feed:", e);
-    alert("This feed could not be loaded.");
-  }
-}
-
 loadFeedList();
 loadEpisodes();
 document.getElementById('feedSelect').addEventListener('change', () => loadEpisodes());
