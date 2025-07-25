@@ -33,19 +33,50 @@ function addCustomFeed() {
 
 async function loadEpisodes(order = 'newest') {
   const feedUrl = document.getElementById('feedSelect').value;
-  const proxy = "https://corsproxy.io/?";
-  try {
-    const response = await fetch(proxy + encodeURIComponent(feedUrl));
-    const data = await response.json();
-    console.log("Fetched response:", data.contents);
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
+  const proxy = 'https://corsproxy.io/?';
+  const response = await fetch(proxy + encodeURIComponent(feedUrl));
+  const contents = await response.text(); // not response.json()
 
-    let items = Array.from(xml.querySelectorAll('item')).map(item => ({
-      title: item.querySelector('title')?.textContent || 'Untitled',
-      audio: item.querySelector('enclosure')?.getAttribute('url'),
-      pubDate: new Date(item.querySelector('pubDate')?.textContent || 0)
-    }));
+  const parser = new DOMParser();
+  let xml;
+  try {
+    xml = parser.parseFromString(contents, 'text/xml');
+  } catch (e) {
+    console.error("Failed to parse feed:", e);
+    return alert("Failed to load feed.");
+  }
+
+  let items = Array.from(xml.querySelectorAll('item')).map(item => ({
+    title: item.querySelector('title')?.textContent || 'Untitled',
+    audio: item.querySelector('enclosure')?.getAttribute('url'),
+    description: item.querySelector('description')?.textContent || '',
+    pubDate: new Date(item.querySelector('pubDate')?.textContent || 0)
+  }));
+
+  items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
+
+  const episodesDiv = document.getElementById('episodes');
+  episodesDiv.innerHTML = '';
+
+  items.forEach(item => {
+    if (!item.audio) return;
+    const div = document.createElement('div');
+    div.className = 'episode';
+    div.innerHTML = `
+      <strong>${item.title}</strong><br>
+      <small>${item.pubDate.toDateString()}</small><br>
+      <audio controls src="${item.audio}"></audio>
+    `;
+    episodesDiv.appendChild(div);
+
+    const audio = div.querySelector('audio');
+    if (audio) {
+      audio.addEventListener('play', () => {
+        currentAudio = audio;
+      });
+    }
+  });
+}
 
     items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
 
