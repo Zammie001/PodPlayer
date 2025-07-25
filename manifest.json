@@ -1,6 +1,6 @@
 {
-  "name": "PodDownloader",
-  "short_name": "PodDownloader",
+  "name": "PodSaver",
+  "short_name": "PodSaver",
   "start_url": "/PodSaver/",
   "display": "standalone",
   "background_color": "#ffffff",
