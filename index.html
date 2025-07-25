@@ -13,6 +13,7 @@
       font-family: sans-serif;
       padding: 4vw;
       background: #f4f4f4;
+      color: #000;
     }
 
     h2, label {
@@ -29,7 +30,7 @@
     }
 
     option {
-      font-size: 5vw; /* ensures dropdown text is also larger */
+      font-size: 5vw;
     }
 
     .episode {
@@ -49,24 +50,60 @@
     a {
       font-size: 5vw;
     }
+
+    /* Dark mode styles */
+    body.dark {
+      background: #111;
+      color: #eee;
+    }
+
+    body.dark .episode {
+      background: #222;
+      box-shadow: 0 0.2em 0.5em rgba(255,255,255,0.05);
+    }
+
+    body.dark input,
+    body.dark select,
+    body.dark button {
+      background-color: #333;
+      color: #eee;
+      border: 1px solid #444;
+    }
+
+    body.dark a {
+      color: #aad;
+    }
   </style>
 </head>
 <body>
   <h2>PodSaver</h2>
+
   <label for="feedSelect">Choose a podcast feed:</label>
   <select id="feedSelect"></select><br>
+
   <input type="text" id="customFeed" placeholder="Add custom feed URL" />
   <button onclick="addCustomFeed()">Add Feed</button>
+
   <label for="sortOrder">Sort episodes:</label>
-<select id="sortOrder">
-  <option value="newest" selected>Newest First</option>
-  <option value="oldest">Oldest First</option>
-</select>
+  <select id="sortOrder">
+    <option value="newest" selected>Newest First</option>
+    <option value="oldest">Oldest First</option>
+  </select>
+
   <label>
-  <input type="checkbox" id="darkToggle" />
-  Dark Mode
-</label>
+    <input type="checkbox" id="darkToggle" />
+    Dark Mode
+  </label>
+
   <div id="episodes"></div>
+
   <script src="script.js"></script>
+  <script>
+    // Enable dark mode toggle
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', darkToggle.checked);
+    });
+  </script>
 </body>
 </html>
