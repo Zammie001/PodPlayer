@@ -6,6 +6,8 @@ const defaultFeeds = [
   { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
 ];
 
+let currentAudio = null;
+
 function loadFeedList() {
   const savedFeeds = JSON.parse(localStorage.getItem("customFeeds") || "[]");
   const allFeeds = [...defaultFeeds, ...savedFeeds];
@@ -52,8 +54,6 @@ async function loadEpisodes(order = 'newest') {
     description: item.querySelector('description')?.textContent || '',
     pubDate: new Date(item.querySelector('pubDate')?.textContent || 0)
   }));
-
-  items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
 
   const episodesDiv = document.getElementById('episodes');
   episodesDiv.innerHTML = '';
