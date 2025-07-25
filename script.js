@@ -68,7 +68,6 @@ async function loadEpisodes(order = 'newest') {
 div.innerHTML = `
   <strong>${item.title}</strong><br>
   <small>${item.pubDate.toDateString()}</small><br>
-  <audio controls src="${item.audio}"></audio><br>
   <a href="${item.audio}" download="${safeTitle}.mp3">Play Episode</a>
 `;
     episodesDiv.appendChild(div);
