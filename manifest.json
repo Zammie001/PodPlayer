@@ -1,7 +1,7 @@
 {
   "name": "PodDownloader",
   "short_name": "PodDownloader",
-  "start_url": "/PodPlayer/",
+  "start_url": "/PodSaver/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#003366",
