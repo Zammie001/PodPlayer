@@ -2,10 +2,11 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PodSaver</title>
   <style>
     html {
-      font-size: 4.5vw; /* scales text with screen width */
+      font-size: 5vw; /* scales text with screen width */
     }
 
     body {
@@ -14,21 +15,21 @@
       background: #f4f4f4;
     }
 
-    h2 {
-      font-size: 3.5vw;
+    h2, label {
+      font-size: 5vw;
       margin-bottom: 1em;
     }
 
-    label {
-      font-size: 3.5vw;
-    }
-
     select, input, button {
-      font-size: 3.5vw;
+      font-size: 5vw;
       margin: 1em 0;
       padding: 0.8em;
       width: 100%;
       box-sizing: border-box;
+    }
+
+    option {
+      font-size: 5vw; /* ensures dropdown text is also larger */
     }
 
     .episode {
@@ -37,7 +38,7 @@
       padding: 1em;
       border-radius: 0.8em;
       box-shadow: 0 0.2em 0.5em rgba(0,0,0,0.1);
-      font-size: 3.5vw;
+      font-size: 4.5vw;
     }
 
     audio {
@@ -46,7 +47,7 @@
     }
 
     a {
-      font-size: 0.9em;
+      font-size: 1em;
     }
   </style>
 </head>
@@ -60,3 +61,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+
