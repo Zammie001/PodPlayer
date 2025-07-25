@@ -2,34 +2,35 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PodSaver</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet">
   <style>
     html {
-      font-size: 8vw; /* scales text with screen width */
+      font-family: 'Roboto', sans-serif;
     }
 
     body {
-      font-family: sans-serif;
-      padding: 4vw;
+      padding: 1em;
       background: #f4f4f4;
+      font-size: 20pt; /* base font size for all body text */
     }
 
-    h2, label {
-      font-size: 5vw;
+    h2 {
+      font-family: 'Roboto Black', 'Roboto', sans-serif;
+      font-size: 24pt;
       margin-bottom: 1em;
     }
 
+    label {
+      font-size: 20pt;
+    }
+
     select, input, button {
-      font-size: 5vw;
+      font-size: 20pt;
       margin: 1em 0;
       padding: 0.8em;
       width: 100%;
       box-sizing: border-box;
-    }
-
-    option {
-      font-size: 5vw; /* ensures dropdown text is also larger */
     }
 
     .episode {
@@ -38,7 +39,7 @@
       padding: 1em;
       border-radius: 0.8em;
       box-shadow: 0 0.2em 0.5em rgba(0,0,0,0.1);
-      font-size: 4.5vw;
+      font-size: 20pt;
     }
 
     audio {
@@ -47,7 +48,11 @@
     }
 
     a {
-      font-size: 5vw;
+      display: inline-block;
+      font-size: 20pt;
+      margin-top: 0.5em;
+      text-decoration: underline;
+      color: #0066cc;
     }
   </style>
 </head>
@@ -61,5 +66,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
