@@ -1,6 +1,6 @@
 const defaultFeeds = [
-  { name: "Ranger Bill", url: "https://fourble.co.uk/rangerbillsi-250723-7.rss" },
-  { name: "Lamplighter Theatre", url: "https://www.oneplace.com/ministries/lamplighter-theatre/rss.html" },
+  { name: "Ranger Bill", url: "https://feeds.castos.com/d2r89" },
+  { name: "Lamplighter Theatre", url: "https://theatre1594.rssing.com/chan-31359514/latest.php" }
   { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.net/feed/podcast" },
   { name: "VeggieTales Silly Stories", url: "https://rss.art19.com/veggietales-very-veggie-silly-stories" },
   { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
@@ -33,10 +33,11 @@ function addCustomFeed() {
 
 async function loadEpisodes(order = 'newest') {
   const feedUrl = document.getElementById('feedSelect').value;
-  const proxy = 'https://api.allorigins.win/get?url=';
+  const proxy = "https://corsproxy.io/?";
   try {
     const response = await fetch(proxy + encodeURIComponent(feedUrl));
     const data = await response.json();
+    console.log("Fetched response:", data.contents);
     const parser = new DOMParser();
     const xml = parser.parseFromString(data.contents, 'text/xml');
 
