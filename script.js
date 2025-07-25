@@ -1,6 +1,6 @@
 const defaultFeeds = [
   { name: "Ranger Bill", url: "https://feeds.castos.com/d2r89" },
-  { name: "Lamplighter Theatre", url: "https://feed.justcast.com/shows/lamplighter-theatre-official/audioposts.rss" }
+  { name: "Lamplighter Theatre", url: "https://feed.justcast.com/shows/lamplighter-theatre-official/audioposts.rss" },
   { name: "Kids Corner (Liz & Friends)", url: "https://kidscorner.net/feed/podcast" },
   { name: "VeggieTales Silly Stories", url: "https://rss.art19.com/veggietales-very-veggie-silly-stories" },
   { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
