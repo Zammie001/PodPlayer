@@ -7,8 +7,6 @@ const defaultFeeds = [
   { name: "Discovery Mountain", url: "https://www.spreaker.com/show/2408141/episodes/feed" }
 ];
 
-let currentAudio = null;
-
 function loadFeedList() {
   const savedFeeds = JSON.parse(localStorage.getItem("customFeeds") || "[]");
   const allFeeds = [...defaultFeeds, ...savedFeeds];
@@ -79,12 +77,11 @@ async function loadEpisodes() {
       container.parentNode.insertBefore(img, container);
     }
 
-    // 🧾 Parse episodes
+    // 🧾 Parse episodes (without description)
     let items = Array.from(xml.querySelectorAll("item")).map(item => ({
       title: item.querySelector("title")?.textContent || "Untitled",
       audio: item.querySelector("enclosure")?.getAttribute("url"),
-      pubDate: new Date(item.querySelector("pubDate")?.textContent || 0),
-      description: item.querySelector("description")?.textContent || ""
+      pubDate: new Date(item.querySelector("pubDate")?.textContent || 0)
     }));
 
     items.sort((a, b) => {
@@ -101,16 +98,12 @@ async function loadEpisodes() {
       const title = document.createElement("div");
       title.textContent = item.title;
 
-      const desc = document.createElement("div");
-      desc.innerHTML = item.description;
-
       const link = document.createElement("a");
       link.href = item.audio;
       link.textContent = "Download mp3";
       link.setAttribute("target", "_blank");
 
       div.appendChild(title);
-      div.appendChild(desc);
       div.appendChild(link);
       episodesDiv.appendChild(div);
     });
