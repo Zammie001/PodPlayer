@@ -1,3 +1,4 @@
+// 🔗 Default podcast feeds
 const defaultFeeds = [
   { name: "Ranger Bill", url: "https://feeds.castos.com/d2r89" },
   { name: "Lamplighter Kids Stories", url: "https://anchor.fm/s/f4efe1c/podcast/rss" },
@@ -19,6 +20,12 @@ function loadFeedList() {
     option.textContent = feed.name;
     select.appendChild(option);
   });
+
+  // Auto-load the first feed
+  if (select.options.length > 0) {
+    select.value = select.options[0].value;
+    loadEpisodes();
+  }
 }
 
 function addCustomFeed() {
@@ -26,6 +33,7 @@ function addCustomFeed() {
   if (!url) return alert("Please enter a URL.");
   const name = prompt("Enter a name for this feed:");
   if (!name) return;
+
   const saved = JSON.parse(localStorage.getItem("customFeeds") || "[]");
   saved.push({ name, url });
   localStorage.setItem("customFeeds", JSON.stringify(saved));
@@ -33,7 +41,7 @@ function addCustomFeed() {
   document.getElementById("customFeed").value = '';
 }
 
-async function loadEpisodes(order = 'newest') {
+async function loadEpisodes() {
   const feedUrl = document.getElementById('feedSelect').value;
   const sortOrder = document.getElementById('sortOrder').value;
   const proxy = "https://corsproxy.io/?";
@@ -44,7 +52,7 @@ async function loadEpisodes(order = 'newest') {
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmlText, "text/xml");
 
-    // 🔍 Try to extract the podcast thumbnail
+    // 🔍 Get podcast image
     let imageUrl = null;
     const itunesImage = xml.querySelector("itunes\\:image");
     if (itunesImage) {
@@ -54,11 +62,11 @@ async function loadEpisodes(order = 'newest') {
       if (imageTag) imageUrl = imageTag.textContent;
     }
 
-    // 🧹 Remove old image if exists
+    // 🔁 Remove old image if exists
     const oldImg = document.getElementById("podcastImage");
     if (oldImg) oldImg.remove();
 
-    // 🎨 Display new thumbnail
+    // 🎨 Show new image
     if (imageUrl) {
       const img = document.createElement("img");
       img.src = imageUrl;
@@ -71,7 +79,7 @@ async function loadEpisodes(order = 'newest') {
       container.parentNode.insertBefore(img, container);
     }
 
-    // 📦 Parse episodes
+    // 🧾 Parse episodes
     let items = Array.from(xml.querySelectorAll("item")).map(item => ({
       title: item.querySelector("title")?.textContent || "Untitled",
       audio: item.querySelector("enclosure")?.getAttribute("url"),
@@ -79,11 +87,9 @@ async function loadEpisodes(order = 'newest') {
       description: item.querySelector("description")?.textContent || ""
     }));
 
-    if (sortOrder === "oldest") {
-      items.sort((a, b) => a.pubDate - b.pubDate);
-    } else {
-      items.sort((a, b) => b.pubDate - a.pubDate);
-    }
+    items.sort((a, b) => {
+      return sortOrder === "oldest" ? a.pubDate - b.pubDate : b.pubDate - a.pubDate;
+    });
 
     const episodesDiv = document.getElementById("episodes");
     episodesDiv.innerHTML = "";
@@ -114,21 +120,9 @@ async function loadEpisodes(order = 'newest') {
   }
 }
 
-// Re-load episodes when sorting option is changed
+// ⏫ Set up event listeners
 document.getElementById("sortOrder").addEventListener("change", () => loadEpisodes());
-
-// Auto-load when a new feed is selected
 document.getElementById("feedSelect").addEventListener("change", () => loadEpisodes());
 
-// Support for custom feeds (you may already have this in your code)
-function addCustomFeed() {
-  const url = document.getElementById("customFeed").value.trim();
-  if (url) {
-    const feedSelect = document.getElementById("feedSelect");
-    const option = new Option(url, url);
-    feedSelect.appendChild(option);
-    feedSelect.value = url;
-    loadEpisodes();
-  }
-}
-
+// 🚀 Init on load
+loadFeedList();
