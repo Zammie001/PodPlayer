@@ -35,62 +35,100 @@ function addCustomFeed() {
 
 async function loadEpisodes(order = 'newest') {
   const feedUrl = document.getElementById('feedSelect').value;
-  const proxy = 'https://corsproxy.io/?';
-  const response = await fetch(proxy + encodeURIComponent(feedUrl));
-  const contents = await response.text(); // not response.json()
+  const sortOrder = document.getElementById('sortOrder').value;
+  const proxy = "https://corsproxy.io/?";
 
-  const parser = new DOMParser();
-  let xml;
   try {
-    xml = parser.parseFromString(contents, 'text/xml');
-  } catch (e) {
-    console.error("Failed to parse feed:", e);
-    return alert("Failed to load feed.");
-  }
+    const response = await fetch(proxy + encodeURIComponent(feedUrl));
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
 
-  let items = Array.from(xml.querySelectorAll('item')).map(item => ({
-    title: item.querySelector('title')?.textContent || 'Untitled',
-    audio: item.querySelector('enclosure')?.getAttribute('url'),
-    description: item.querySelector('description')?.textContent || '',
-    pubDate: new Date(item.querySelector('pubDate')?.textContent || 0)
-  }));
-
-  items.sort((a, b) => order === 'newest' ? b.pubDate - a.pubDate : a.pubDate - b.pubDate);
-  
-  const episodesDiv = document.getElementById('episodes');
-  episodesDiv.innerHTML = '';
-
-  items.forEach(item => {
-    if (!item.audio) return;
-    const div = document.createElement('div');
-    div.className = 'episode';
-    const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase().slice(0, 50);
-div.innerHTML = `
-  <strong>${item.title}</strong><br>
-  <small>${item.pubDate.toDateString()}</small><br>
-  <a href="${item.audio}" download="${safeTitle}.mp3">Play Episode</a>
-`;
-    episodesDiv.appendChild(div);
-
-    const audio = div.querySelector('audio');
-    if (audio) {
-      audio.addEventListener('play', () => {
-        currentAudio = audio;
-      });
+    // 🔍 Try to extract the podcast thumbnail
+    let imageUrl = null;
+    const itunesImage = xml.querySelector("itunes\\:image");
+    if (itunesImage) {
+      imageUrl = itunesImage.getAttribute("href");
+    } else {
+      const imageTag = xml.querySelector("image url");
+      if (imageTag) imageUrl = imageTag.textContent;
     }
-  });
+
+    // 🧹 Remove old image if exists
+    const oldImg = document.getElementById("podcastImage");
+    if (oldImg) oldImg.remove();
+
+    // 🎨 Display new thumbnail
+    if (imageUrl) {
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = "Podcast Cover";
+      img.id = "podcastImage";
+      img.style.width = "100%";
+      img.style.borderRadius = "1em";
+      img.style.marginBottom = "1em";
+      const container = document.getElementById("episodes");
+      container.parentNode.insertBefore(img, container);
+    }
+
+    // 📦 Parse episodes
+    let items = Array.from(xml.querySelectorAll("item")).map(item => ({
+      title: item.querySelector("title")?.textContent || "Untitled",
+      audio: item.querySelector("enclosure")?.getAttribute("url"),
+      pubDate: new Date(item.querySelector("pubDate")?.textContent || 0),
+      description: item.querySelector("description")?.textContent || ""
+    }));
+
+    if (sortOrder === "oldest") {
+      items.sort((a, b) => a.pubDate - b.pubDate);
+    } else {
+      items.sort((a, b) => b.pubDate - a.pubDate);
+    }
+
+    const episodesDiv = document.getElementById("episodes");
+    episodesDiv.innerHTML = "";
+
+    items.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "episode";
+
+      const title = document.createElement("div");
+      title.textContent = item.title;
+
+      const desc = document.createElement("div");
+      desc.innerHTML = item.description;
+
+      const link = document.createElement("a");
+      link.href = item.audio;
+      link.textContent = "Download mp3";
+      link.setAttribute("target", "_blank");
+
+      div.appendChild(title);
+      div.appendChild(desc);
+      div.appendChild(link);
+      episodesDiv.appendChild(div);
+    });
+
+  } catch (e) {
+    alert("Failed to load feed: " + e.message);
+  }
 }
 
-loadFeedList();
-loadEpisodes();
-const refreshEpisodes = () => {
-  const order = document.getElementById('sortOrder').value;
-  loadEpisodes(order);
-};
+// Re-load episodes when sorting option is changed
+document.getElementById("sortOrder").addEventListener("change", () => loadEpisodes());
 
-document.getElementById('feedSelect').addEventListener('change', refreshEpisodes);
-document.getElementById('sortOrder').addEventListener('change', refreshEpisodes);
+// Auto-load when a new feed is selected
+document.getElementById("feedSelect").addEventListener("change", () => loadEpisodes());
 
-document.getElementById('darkToggle').addEventListener('change', (e) => {
-  document.body.classList.toggle('dark', e.target.checked);
-});
+// Support for custom feeds (you may already have this in your code)
+function addCustomFeed() {
+  const url = document.getElementById("customFeed").value.trim();
+  if (url) {
+    const feedSelect = document.getElementById("feedSelect");
+    const option = new Option(url, url);
+    feedSelect.appendChild(option);
+    feedSelect.value = url;
+    loadEpisodes();
+  }
+}
+
