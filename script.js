@@ -100,7 +100,7 @@ async function loadEpisodes() {
 
       const link = document.createElement("a");
       link.href = item.audio;
-      link.textContent = "Download mp3";
+      link.textContent = "Play Episode";
       link.setAttribute("target", "_blank");
 
       div.appendChild(title);
